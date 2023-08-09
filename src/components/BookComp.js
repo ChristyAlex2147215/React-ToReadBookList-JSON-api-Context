@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "./BookComp.css"
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getData,putData,delData } from '../api';
+import { bookContext } from '../context/bookContext';
 
-const BookComp = ({url,title,setBookList,id,bookList}) => {
+const BookComp = ({url,title,id}) => {
   const [editMode,setEditMode]=useState(false);
   const [name,setName]=useState(title);
+  const {bookList,
+    setBookList,
+    getBooks,
+    editBookById,
+    deleteBookById}=useContext(bookContext);
   const onClickEdit=()=>
   {
     setEditMode(!editMode);
@@ -15,12 +20,12 @@ const BookComp = ({url,title,setBookList,id,bookList}) => {
   {
     console.log("Delete function");
     console.log(id);
-    console.log(bookList)
     // const newBl=bookList.filter((item)=>{return item.id !== id});
     // console.log("filter result is =>",newBl);
     // setBookList(newBl);
-    await delData(id);
-    setBookList(await getData());
+    const res=await deleteBookById(id);
+    const newList=bookList.filter((item)=>{return (item.id!==id)})
+    setBookList(newList);
 
 
   }
@@ -36,8 +41,8 @@ const BookComp = ({url,title,setBookList,id,bookList}) => {
     //   }
     //   return item;
     // });
-    await putData(id,name,`https://picsum.photos/seed/${id}/200`);
-    setBookList(await getData());
+    await editBookById(id,name,`https://picsum.photos/seed/${id}/200`);
+    setBookList(await getBooks());
     setEditMode(!editMode);
 
     

@@ -1,42 +1,47 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "./BookAddForm.css"
-import {postData,getData,putData} from "../api"
+import { bookContext } from '../context/bookContext'
 
-const BookAddForm = ({setBookList,bookList}) => {
+const BookAddForm = () => {
     const [bookName,setBookName]=useState("");
+    const {  bookList,
+      setBookList,
+      getBooks,
+      createBook}=useContext(bookContext);
 
-    async function setd()
-    {
+    // async function setd()
+    // {
       
-      const data=await postData(bookName,`https://picsum.photos/seed/${Math.ceil(Math.random*9999)}/200`);
-      console.log("post data-1 obtained form the server is ",data);
+    //   const data=await postData(bookName,`https://picsum.photos/seed/${Math.ceil(Math.random*9999)}/200`);
+    //   console.log("post data-1 obtained form the server is ",data);
     
-      // for (const item of bookList) {
-      //   if (!item.url) {
-      //     console.log("Updated Data:", item.id,item.title);
-      //     const updatedItem = await putData(item.id, item.title, `https://picsum.photos/seed/${item.id}/200`);
+    //   for (const item of bookList) {
+    //     if (!item.url) {
+    //       console.log("Updated Data:", item.id,item.title);
+    //       const updatedItem = await putData(item.id, item.title, `https://picsum.photos/seed/${item.id}/200`);
          
-      //   }
-      // }
+    //     }
+    //   }
       
       
-      setBookList(await getData());
+    //   setBookList(await getData());
  
-    }
+    // }
     const  onChangeBookName=(e)=>
     {
        
       setBookName(e.target.value);
         
     }
-    const AddBook=(e)=>
+    const AddBook=async(e)=>
     {
       console.log("Adding a new book")
         e.preventDefault();
         console.log("book name: ",bookName);
         const randomId=Math.ceil(Math.random()*9999);
         // setBookList([...bookList,{id:randomId,title:bookName,img:`https://picsum.photos/seed/${randomId}/200`}])
-        setd();
+        const res=await createBook(bookName,`https://picsum.photos/seed/${Math.ceil(Math.random()*9999)}/200`)
+        setBookList([...bookList,res]); 
     }
 
   return (
