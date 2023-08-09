@@ -1,0 +1,23 @@
+.book-border
+{
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px lightblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+.book-buttons
+{
+display: flex;
+justify-content:flex-end;
+justify-self: flex-end;
+padding:0px 0px;
+
+}
+
+.book-button
+{
+    margin-right: 5px;
+}
